@@ -13,6 +13,7 @@ import { elements, renderLoader, clearLoader } from './views/base';
 
 
 const state = {};
+window.state = state;
 
 const controlSearch = async () => {
     const query = searchView.getInput();
@@ -67,9 +68,12 @@ const controlRecipe = async () => {
 };
 
 
-const controlShoppingList = () => {
-    if (!state.shoppingList) state.shoppingList = new ShoppingList();
+const addRecipeToShoppingList = () => {
+    // if (!state.shoppingList) {
+    //     state.shoppingList = new ShoppingList();
 
+    // }
+    listView.TogglerenderClearButton(true);
     state.recipe.ingredients.forEach(ing => {
         const item = state.shoppingList.addItem(ing.amount, ing.unit, ing.ingredient);
         listView.renderItem(item);
@@ -80,6 +84,22 @@ const controlShoppingList = () => {
 
 
 
+function addItemToShopping() {
+
+
+    const amount = elements.shoppingForm.elements['amount'].value;
+    const unit = elements.shoppingForm.elements['unit'].value;
+    const ingredient = elements.shoppingForm.elements['ingredient'].value;
+
+
+    //if (!state.shoppingList) {
+    //   state.shoppingList = new ShoppingList();
+    // }
+
+    listView.TogglerenderClearButton(true);
+    const item = state.shoppingList.addItem(amount, unit, ingredient);
+    listView.renderItem(item);
+}
 
 
 
@@ -98,6 +118,15 @@ function controlLike() {
     likesView.toggleHeartVisibility(state.likes.getNumberOfLikes());
 }
 
+function animateCheckMark() {
+    const element = document.querySelector('.shopping-title');
+    if (element.classList.contains('visible'))
+        element.classList.remove('visible');
+    window.requestAnimationFrame(() => {
+        element.classList.add('visible');
+    })
+}
+
 
 /*-----------------EVENT LISTENERES------------------------------------*/
 
@@ -108,11 +137,20 @@ elements.searchForm.addEventListener('submit', event => {
 
 
 window.addEventListener('load', () => {
+    //LIKES
     state.likes = new Likes();
     state.likes.readFromStorage();
     likesView.toggleHeartVisibility(state.likes.getNumberOfLikes());
     state.likes.likedRecipes.forEach(like => {
         likesView.renderLike(like);
+    });
+    //ITEMS
+    state.shoppingList = new ShoppingList();
+    state.shoppingList.readFromStorage();
+    if (!state.shoppingList.isEmpty())
+        listView.TogglerenderClearButton(true)
+    state.shoppingList.items.forEach(item => {
+        listView.renderItem(item);
     })
 })
 
@@ -140,22 +178,44 @@ elements.searchResPages.addEventListener('click', event => {
 
 
 
-elements.shoppingList.addEventListener('click', event => {
-    const id = event.target.closest('.shopping__item').dataset.itemid;
+
+elements.shoppingForm.addEventListener('submit', () => {
+    event.preventDefault();
+    addItemToShopping()
+    animateCheckMark();
+})
+
+
+
+elements.shoppingContainer.addEventListener('click', event => {
+    //const id = event.target.closest('.shopping__item').dataset.itemid;
 
     if (event.target.matches('.shopping__delete,.shopping__delete *')) {
+        const id = event.target.closest('.shopping__item').dataset.itemid;
         state.shoppingList.deleteItem(id);
+        listView.TogglerenderClearButton(!state.shoppingList.isEmpty());
         listView.deleteItem(id);
     }
     else if (event.target.matches('.shopping__amount-value')) {
+        const id = event.target.closest('.shopping__item').dataset.itemid;
         const newAmount = parseFloat(event.target.value);
         state.shoppingList.updateAmount(id, newAmount);
+    }
+    else if (event.target.matches('.clear')) {
+
+        state.shoppingList.deleteAll();
+        listView.removeAll();
+        listView.TogglerenderClearButton(false);
     }
 });
 
 //launch controlRecipe() for every hash change or page load/re-load
 //when a recipe is clicked the hash automatically changes 
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+
+
+
 
 
 
@@ -171,7 +231,7 @@ elements.recipe.addEventListener('click', event => {
         recipeView.updateAmounts(state.recipe);
     }
     else if (event.target.matches('.recipe__btn--add,.recipe__btn--add *')) {
-        controlShoppingList();
+        addRecipeToShoppingList();
     }
     else if (event.target.matches('.recipe__love,.recipe__love *')) {
         controlLike();

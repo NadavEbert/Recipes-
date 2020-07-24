@@ -6,9 +6,13 @@ export const elements = {
     searchResPages: document.querySelector('.results__pages'),
     recipe: document.querySelector('.recipe'),
     shoppingList: document.querySelector('.shopping__list'),
+    shoppingContainer: document.querySelector('.shopping'),
+
     shoppingListItemAmount: document.querySelector('.shopping__amount-value'),
     likesMenuIcon: document.querySelector('.likes__field'),
-    likesList: document.querySelector('.likes__list')
+    likesList: document.querySelector('.likes__list'),
+    shoppingForm: document.querySelector('.shopping__form'),
+    addItemButton: document.querySelector('form .add')
 
 }
 

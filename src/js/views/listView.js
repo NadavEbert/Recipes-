@@ -19,7 +19,23 @@ export const renderItem = item => {
     elements.shoppingList.insertAdjacentHTML('beforeend', markup);
 };
 
+
+
 export const deleteItem = id => {
     const itemToDelete = document.querySelector(`[data-itemid="${id}"]`);
     if (itemToDelete) itemToDelete.parentNode.removeChild(itemToDelete);
 };
+
+export function removeAll() {
+    elements.shoppingList.innerHTML = '';
+}
+
+export function TogglerenderClearButton(isList) {
+
+    const clearButton = document.querySelector('.btn-inline.clear');
+
+    if (isList)
+        clearButton.style.display = 'block';
+    else
+        clearButton.style.display = 'none';
+}

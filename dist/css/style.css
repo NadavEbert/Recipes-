@@ -452,13 +452,17 @@ body {
     font-weight: 700; }
 
 .shopping {
+  grid-area: 'shopping';
+  max-width:40rem;
   padding: 3rem 4rem;
   display: flex;
   flex-direction: column; }
   .shopping__list {
     list-style: none;
     max-height: 77rem;
-    overflow: scroll; }
+    overflow-x: hidden;
+    overflow-y: scroll; 
+  }
   .shopping__item {
     display: flex;
     align-items: flex-start;
@@ -505,3 +509,154 @@ body {
   .shopping__item:hover .shopping__delete {
     opacity: 1;
     visibility: visible; }
+
+
+  .add_clear{
+    grid-column: 1/11;
+    grid-row: 3/4;
+    margin-top: 4rem;
+  }  
+  
+  .add_clear--container{
+    display: flex;
+    justify-content: space-between;
+    margin: 0rem 2rem 2rem 2rem;
+    
+  }
+  .add_clear--container .btn-inline{
+    justify-content: center;
+    margin: 0 0.5rem;
+  }
+
+  .add_clear--container .btn-inline.clear{
+    display:none;
+    flex-grow: 1;
+}
+
+  .add_clear--container .btn-inline.add{
+    flex-grow: 1;
+  }
+
+  .shopping form{
+    font-size: 0.5rem;
+    display: grid;
+    max-width: 30rem;
+    margin: 0.5rem;
+    margin-bottom: 3rem;
+    grid-template-columns: repeat(10,1fr);
+    grid-template-rows: repeat(3,3rem);
+    grid-gap: 1rem;
+    align-items: center;
+  }  
+
+
+  .shopping-title{
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .shopping-title::after{
+    position: absolute;
+    display: none;
+    opacity: 0;
+    background-size: cover;
+    content:'';
+    background-image:url('../img/iconmonstr-check-mark-17.svg');
+    z-index: 1;
+    margin-top: 45px;
+    
+    width: 70px;
+    height: 70px; 
+  }
+
+  .shopping-title::before{
+    position: absolute;
+    content:'';
+    width:65px;
+    height:30px;
+    border: #F59A83 3px solid;
+    border-bottom: transparent;
+    border-left: transparent;  
+    z-index: 1;
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    opacity: 0;
+    margin-top: 50px;
+}
+
+  .shopping-title.visible::before{
+    animation: growFadeIn 0.7s reverse  ;
+    -webkit-animation: growFadeIn 0.7s reverse  ;
+}
+  
+ 
+  .shopping form div input{
+    width: 100%;
+    height: 3rem;
+    color: #F48982;
+    position: relative;
+    background-color: var(--off-white);
+    padding-left: 1rem;
+    outline: none;
+    border:0.7px solid rgba(255, 255, 255, 0) ;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    transition: border 0.5s;
+    -webkit-transition: border 0.5s;
+    -moz-transition: border 0.5s;
+    -ms-transition: border 0.5s;
+    -o-transition: border 0.5s;
+}
+  
+
+
+.shopping form div input:focus{
+  border-bottom:0.7px solid #f16060 ;
+  
+}
+
+.shopping form div input::placeholder{
+  color:#868686 ;
+  opacity: 0.5;
+ 
+}
+
+  
+
+  .shopping form .amount{
+    grid-column: 1/5;
+  }
+  .shopping form .unit{
+    grid-column: 5/11;
+  }
+  .shopping form .ingredient{
+    grid-column: 1/11;
+    grid-row: 2/3;
+  }
+
+  @keyframes growFadeIn{
+    0%{
+      opacity:0;
+      
+    }
+    80%{
+      opacity:0.6;
+      
+    }
+
+    100%{
+     opacity: 0;
+     transform: scale(1.2) rotate(135deg);
+     -webkit-transform: scale(1.2) rotate(135deg);
+     -moz-transform: scale(1.2) rotate(135deg);
+     -ms-transform: scale(1.2) rotate(135deg);
+     -o-transform: scale(1.2) rotate(135deg);
+}
+  }

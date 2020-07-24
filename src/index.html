@@ -344,9 +344,30 @@
 
 
         <div class="shopping">
-            <h2 class="heading-2">My Shopping List</h2>
+            <div class="shopping-title">
+                <h2 class="heading-2">My Shopping List</h2>
+            </div>
+
+            <form class="shopping__form">
+
+                <div class="amount"><input type="number" min="0" placeholder="amount" name="amount"></div>
+                <div class="unit"><input type="text" placeholder="unit" name="unit"></div>
+
+                <div class="ingredient"><input type="text" placeholder="ingredient" name="ingredient" required></div>
+
+
+
+                <div class="add_clear">
+                    <div class="add_clear--container">
+                        <button type="submit" class="btn-inline add">add item</button>
+                        <button type="button" class="btn-inline clear">clear</button>
+                    </div>
+                </div>
+            </form>
 
             <ul class="shopping__list">
+
+
 
                 <!--
                 <li class="shopping__item">
@@ -428,6 +449,7 @@
                     </button>
                 </li>
                 -->
+
             </ul>
 
             <div class="copyright">
